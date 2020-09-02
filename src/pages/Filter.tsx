@@ -1,15 +1,15 @@
 import React from "react";
 import {
+  IonPage,
   IonHeader,
-  IonContent,
   IonToolbar,
   IonTitle,
-  IonPage,
+  IonContent,
   IonButtons,
   IonMenuButton,
 } from "@ionic/react";
 
-const AllGoals: React.FC = () => {
+const Filter: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -17,14 +17,14 @@ const AllGoals: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>AllGoals</IonTitle>
+          <IonTitle>Filter</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {" "}
-        <h2>This works! - AllGoals page</h2>
+        <h2>The filter Page...</h2>
       </IonContent>
     </IonPage>
   );
 };
-export default AllGoals;
+
+export default Filter;
