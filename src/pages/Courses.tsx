@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonHeader,
   IonContent,
@@ -9,13 +9,14 @@ import {
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 
-const Courses: React.FC = () => {
+const Courses: React.FC = (props) => {
   const history = useHistory();
+  const [name, setName] = useState<string>("");
 
   const changePageHandler = () => {
     history.push({
       pathname: "/course-goals",
-      state: { response: "akachukwu" },
+      state: { name: "akachukwu" },
     });
   };
 
