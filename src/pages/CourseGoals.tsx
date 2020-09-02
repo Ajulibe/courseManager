@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   IonHeader,
   IonContent,
@@ -8,15 +8,8 @@ import {
   IonButtons,
   IonBackButton,
 } from "@ionic/react";
-import { useLocation } from "react-router-dom";
 
 const CourseGoals: React.FC = () => {
-  //   const location = useLocation();
-
-  //   useEffect(() => {
-  //     console.log(location.state);
-  //   }, [location]);
-
   return (
     <IonPage>
       <IonHeader>
