@@ -20,7 +20,6 @@ import {
   isPlatform,
   IonAlert,
   IonToast,
-  IonModal,
 } from "@ionic/react";
 import { useParams, useLocation } from "react-router-dom";
 import { COURSE_DATA } from "./Courses";
@@ -31,6 +30,7 @@ const CourseGoals: React.FC = () => {
   const [showAlert1, setShowAlert1] = useState(false);
   const [showToast1, setShowToast1] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<any>();
   //we are using useParams here. First set the rout in the router of this component to /:id
   //where id is the query string. Then go to the file you want to make use of that query
   //and import useParams and extract the required value like below.
@@ -43,6 +43,7 @@ const CourseGoals: React.FC = () => {
   const startDeleteItemHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
     setShowAlert1(true);
+
     console.log("Agreed to Delete...");
   };
 
@@ -52,10 +53,15 @@ const CourseGoals: React.FC = () => {
     console.log("Deleted...");
   };
 
-  const startEditGoalHandler = (event: React.MouseEvent) => {
+  const startEditGoalHandler = (goalId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     console.log("edited...");
+    const goal = selectedCourse?.goals.find((g) => g.id === goalId);
+    if (!goal) {
+      return;
+    }
     setShowModal(true);
+    setSelectedGoal(goal);
   };
 
   const startAddGoalHandler = () => {
@@ -65,12 +71,14 @@ const CourseGoals: React.FC = () => {
 
   const cancelEditGoalHandler = () => {
     setShowModal(false);
+    setSelectedGoal(null);
   };
 
   return (
     <>
       {/* MAIN PAGE */}
       <EditModal
+        editedGoal={selectedGoal}
         show={showModal}
         cancelEditGoalHandler={cancelEditGoalHandler}
       />
@@ -114,7 +122,10 @@ const CourseGoals: React.FC = () => {
                 //FOR SWIPING
                 <IonItemSliding key={goal.id}>
                   <IonItemOptions side="end">
-                    <IonItemOption onClick={startEditGoalHandler}>
+                    {/* here we are binding these arguments to this function when the function is called */}
+                    <IonItemOption
+                      onClick={startEditGoalHandler.bind(null, goal.id)}
+                    >
                       <IonIcon slot="icon-only" icon={create} />
                     </IonItemOption>
                   </IonItemOptions>
