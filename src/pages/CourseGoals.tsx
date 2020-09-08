@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   IonHeader,
   IonContent,
@@ -31,6 +31,8 @@ const CourseGoals: React.FC = () => {
   const [showToast1, setShowToast1] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<any>();
+
+  const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
   //we are using useParams here. First set the rout in the router of this component to /:id
   //where id is the query string. Then go to the file you want to make use of that query
   //and import useParams and extract the required value like below.
@@ -57,6 +59,8 @@ const CourseGoals: React.FC = () => {
     event.stopPropagation();
     console.log("edited...");
     const goal = selectedCourse?.goals.find((g) => g.id === goalId);
+    //? means this will not be called if it has bot be assigned to anything
+    slidingOptionsRef.current?.closeOpened();
     if (!goal) {
       return;
     }
@@ -120,7 +124,7 @@ const CourseGoals: React.FC = () => {
                 // </IonItem>
 
                 //FOR SWIPING
-                <IonItemSliding key={goal.id}>
+                <IonItemSliding key={goal.id} ref={slidingOptionsRef}>
                   <IonItemOptions side="end">
                     {/* here we are binding these arguments to this function when the function is called */}
                     <IonItemOption

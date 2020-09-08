@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonHeader,
   IonContent,
@@ -14,8 +14,15 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
+  isPlatform,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonButtons,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
+import { add, addOutline } from "ionicons/icons";
+import CoursesEditModal from "./CoursesEditModal";
 
 export const COURSE_DATA = [
   {
@@ -67,6 +74,7 @@ export const COURSE_DATA = [
 
 const Courses: React.FC = (props) => {
   const history = useHistory();
+  const [show, setShow] = useState<boolean>(false);
 
   // const changePageHandler = () => {
   //   history.push({
@@ -75,11 +83,30 @@ const Courses: React.FC = (props) => {
   //   });
   // };
 
+  const EditCoursesHandler = () => {
+    setShow(true);
+  };
+
+  const cancelEditCoursesHandler = () => {
+    setShow(false);
+  };
+
   return (
     <IonPage>
+      <CoursesEditModal
+        show={show}
+        cancelEditCoursesHandler={cancelEditCoursesHandler}
+      />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Courses</IonTitle>
+          {!isPlatform("android") && (
+            <IonButtons slot="end">
+              <IonButton>
+                <IonIcon slot="icon-only" icon={addOutline} />
+              </IonButton>
+            </IonButtons>
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -121,6 +148,14 @@ const Courses: React.FC = (props) => {
           {/* <IonButton routerLink="/course-goals">To Course Goals</IonButton> */}
           {/* <IonButton onClick={changePageHandler}>To Course Goals</IonButton> */}
         </div>
+        {/* FLOATING BUTTON */}
+        {isPlatform("android") && (
+          <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonFabButton color="secondary" onClick={EditCoursesHandler}>
+              <IonIcon icon={add} />
+            </IonFabButton>
+          </IonFab>
+        )}
       </IonContent>
     </IonPage>
   );
