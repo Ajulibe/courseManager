@@ -9,11 +9,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
   isPlatform,
   IonFab,
   IonFabButton,
@@ -23,6 +18,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { add, addOutline } from "ionicons/icons";
 import CoursesEditModal from "./CoursesEditModal";
+import CourseCards from "./CourseCards";
 
 export const COURSE_DATA = [
   {
@@ -83,11 +79,11 @@ const Courses: React.FC = (props) => {
   //   });
   // };
 
-  const EditCoursesHandler = () => {
+  const startAddCoursesHandler = () => {
     setShow(true);
   };
 
-  const cancelEditCoursesHandler = () => {
+  const cancelAddCoursesHandler = () => {
     setShow(false);
   };
 
@@ -95,7 +91,7 @@ const Courses: React.FC = (props) => {
     <IonPage>
       <CoursesEditModal
         show={show}
-        cancelEditCoursesHandler={cancelEditCoursesHandler}
+        cancelEditCoursesHandler={cancelAddCoursesHandler}
       />
       <IonHeader>
         <IonToolbar>
@@ -114,32 +110,15 @@ const Courses: React.FC = (props) => {
           {COURSE_DATA.map((course) => (
             <IonRow key={course.id}>
               <IonCol size-md="4" offset-md="4">
-                <IonCard>
-                  <IonCardHeader>
-                    <IonCardTitle>{course.title}</IonCardTitle>
-                    <IonCardSubtitle>
-                      Enrolled on{" "}
-                      {course.enrolled.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })}
-                    </IonCardSubtitle>
-                  </IonCardHeader>
-
-                  <IonCardContent>
-                    <div className="ion-text-right">
-                      <IonButton
-                        fill="clear"
-                        color="secondary"
-                        routerLink={`/courses/${course.id}`}
-                      >
-                        {" "}
-                        VIEW COURSE GOALS
-                      </IonButton>
-                    </div>
-                  </IonCardContent>
-                </IonCard>
+                <CourseCards
+                  courseTitle={course.title}
+                  courseEnrolled={course.enrolled.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                  courseID={course.id}
+                />
               </IonCol>
             </IonRow>
           ))}
@@ -151,7 +130,7 @@ const Courses: React.FC = (props) => {
         {/* FLOATING BUTTON */}
         {isPlatform("android") && (
           <IonFab vertical="bottom" horizontal="end" slot="fixed">
-            <IonFabButton color="secondary" onClick={EditCoursesHandler}>
+            <IonFabButton color="secondary" onClick={startAddCoursesHandler}>
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>

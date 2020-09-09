@@ -12,6 +12,7 @@ import {
   IonItem,
   IonLabel,
   IonInput,
+  IonDatetime,
 } from "@ionic/react";
 
 const CoursesEditModal: React.FC<{
@@ -32,8 +33,16 @@ const CoursesEditModal: React.FC<{
             <IonRow>
               <IonCol>
                 <IonItem>
-                  <IonLabel position="floating">Your Courses</IonLabel>
+                  <IonLabel position="floating">Course Title</IonLabel>
                   <IonInput type="text" value=""></IonInput>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                <IonItem>
+                  <IonLabel>Enrollment Date</IonLabel>
+                  <IonDatetime displayFormat="MM DD YY" />
                 </IonItem>
               </IonCol>
             </IonRow>

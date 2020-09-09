@@ -8,13 +8,8 @@ import {
   IonButtons,
   IonBackButton,
   IonList,
-  IonItem,
-  IonLabel,
   IonButton,
   IonIcon,
-  IonItemSliding,
-  IonItemOptions,
-  IonItemOption,
   IonFab,
   IonFabButton,
   isPlatform,
@@ -23,8 +18,9 @@ import {
 } from "@ionic/react";
 import { useParams, useLocation } from "react-router-dom";
 import { COURSE_DATA } from "./Courses";
-import { golfSharp, create, trash, addOutline, add } from "ionicons/icons";
+import { addOutline, add } from "ionicons/icons";
 import EditModal from "./EditModal";
+import EditableGoalSliding from "./EditableGoalSliding";
 
 const CourseGoals: React.FC = () => {
   const [showAlert1, setShowAlert1] = useState(false);
@@ -86,6 +82,42 @@ const CourseGoals: React.FC = () => {
         show={showModal}
         cancelEditGoalHandler={cancelEditGoalHandler}
       />
+      {/* ALERT  */}
+      <IonAlert
+        animated
+        translucent
+        isOpen={showAlert1}
+        onDidDismiss={() => {
+          setShowAlert1(false);
+        }}
+        cssClass="my-custom-class"
+        header={"Delete"}
+        subHeader={"Remove goals"}
+        message={"Are you sure you want to delete this?"}
+        buttons={[
+          {
+            text: "No",
+            role: "cancel",
+            cssClass: "primary",
+            handler: (blah) => {
+              console.log("Confirm Cancel: blah");
+            },
+          },
+          {
+            text: "Yes",
+            cssClass: "secondary",
+            handler: deleteGoalHandler,
+          },
+        ]}
+      />
+      {/* TOAST MESSAGE */}
+      <IonToast
+        color="secondary"
+        isOpen={showToast1}
+        onDidDismiss={() => setShowToast1(false)}
+        message="Goal has been deleted"
+        duration={1000}
+      />
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -122,69 +154,16 @@ const CourseGoals: React.FC = () => {
                 //     <IonIcon slot="icon-only" icon={create} color="secondary" />
                 //   </IonButton>
                 // </IonItem>
-
-                //FOR SWIPING
-                <IonItemSliding key={goal.id} ref={slidingOptionsRef}>
-                  <IonItemOptions side="end">
-                    {/* here we are binding these arguments to this function when the function is called */}
-                    <IonItemOption
-                      onClick={startEditGoalHandler.bind(null, goal.id)}
-                    >
-                      <IonIcon slot="icon-only" icon={create} />
-                    </IonItemOption>
-                  </IonItemOptions>
-                  <IonItemOptions side="start">
-                    <IonItemOption
-                      color="danger"
-                      onClick={startDeleteItemHandler}
-                    >
-                      {/* slot here makes sure that the icons are 
-                    presented in the best possible way */}
-                      <IonIcon slot="icon-only" icon={trash} />
-                    </IonItemOption>
-                  </IonItemOptions>
-                  {/* ALERT  */}
-                  <IonAlert
-                    animated
-                    translucent
-                    isOpen={showAlert1}
-                    onDidDismiss={() => setShowAlert1(false)}
-                    cssClass="my-custom-class"
-                    header={"Delete"}
-                    subHeader={"Remove goals"}
-                    message={"Are you sure you want to delete this?"}
-                    buttons={[
-                      {
-                        text: "No",
-                        role: "cancel",
-                        cssClass: "primary",
-                        handler: (blah) => {
-                          console.log("Confirm Cancel: blah");
-                        },
-                      },
-                      {
-                        text: "Yes",
-                        cssClass: "secondary",
-                        handler: () => {
-                          deleteGoalHandler();
-                        },
-                      },
-                    ]}
-                  />
-                  {/* TOAST MESSAGE */}
-                  <IonToast
-                    color="secondary"
-                    isOpen={showToast1}
-                    onDidDismiss={() => setShowToast1(false)}
-                    message="Goal has been deleted"
-                    duration={1000}
-                  />
-
-                  <IonItem lines="full">
-                    {" "}
-                    <IonLabel>{goal.text}</IonLabel>
-                  </IonItem>
-                </IonItemSliding>
+                <EditableGoalSliding
+                  key={goal.id}
+                  startDeleteItemHandler={startDeleteItemHandler}
+                  slidingOptionsRef={slidingOptionsRef}
+                  goalText={goal.text}
+                  startEditGoalHandler={startEditGoalHandler.bind(
+                    null,
+                    goal.id
+                  )}
+                />
               ))}
             </IonList>
           )}

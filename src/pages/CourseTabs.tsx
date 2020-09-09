@@ -22,7 +22,7 @@ const CourseTabs: React.FC = () => {
       <IonRouterOutlet>
         {/* when the page first loads, it is redirected from the /course route 
           present in App.js to /courses/list because we are using nested routes */}
-        <Redirect path="/courses" to="/courses/list" exact />
+        <Redirect path="/courses" to="/courses/all-goals" exact />
         <Switch>
           <Route path="/courses/list" exact>
             <Courses />
