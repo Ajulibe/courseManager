@@ -6,6 +6,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import Filter from "./pages/Filter";
 import CourseTabs from "./pages/CourseTabs";
 import SideDrawer from "./pages/SideDrawer";
+import CoursesContextProvider from "./data/CoursesContextProvider";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -35,15 +36,17 @@ const App: React.FC = () => (
       {/* {The whole Toolbar navigation was here previously. But it has been moved to the 
       CourseTab file and imported into this as a component to make the file neat} */}
       {/* This is the main routing for the project */}
-      <IonRouterOutlet id="main">
-        <Route path="/filter" exact>
-          <Filter />
-        </Route>
-        <Route path="/courses">
-          <CourseTabs />
-        </Route>
-        <Redirect path="/" to="/courses/list" exact />
-      </IonRouterOutlet>
+      <CoursesContextProvider>
+        <IonRouterOutlet id="main">
+          <Route path="/filter" exact>
+            <Filter />
+          </Route>
+          <Route path="/courses">
+            <CourseTabs />
+          </Route>
+          <Redirect path="/" to="/courses/list" exact />
+        </IonRouterOutlet>
+      </CoursesContextProvider>
     </IonReactRouter>
   </IonApp>
 );

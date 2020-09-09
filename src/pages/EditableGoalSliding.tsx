@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import {
   IonItem,
   IonLabel,
@@ -6,8 +6,6 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
-  IonAlert,
-  IonToast,
 } from "@ionic/react";
 import { create, trash } from "ionicons/icons";
 

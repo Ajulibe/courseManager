@@ -87,11 +87,14 @@ const Courses: React.FC = (props) => {
     setShow(false);
   };
 
+  const courseAddHandler = (title: string, date: Date) => {};
+
   return (
     <IonPage>
       <CoursesEditModal
         show={show}
         cancelEditCoursesHandler={cancelAddCoursesHandler}
+        onSave={courseAddHandler}
       />
       <IonHeader>
         <IonToolbar>
