@@ -1,24 +1,11 @@
 import React from "react";
-import {
-  IonApp,
-  IonRouterOutlet,
-  IonIcon,
-  IonLabel,
-  IonMenu,
-  IonToolbar,
-  IonHeader,
-  IonTitle,
-  IonContent,
-  IonList,
-  IonItem,
-  IonMenuToggle,
-} from "@ionic/react";
+import { IonApp, IonRouterOutlet } from "@ionic/react";
 import { Route, Redirect } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
-import { list, options } from "ionicons/icons";
 
 import Filter from "./pages/Filter";
 import CourseTabs from "./pages/CourseTabs";
+import SideDrawer from "./pages/SideDrawer";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -44,35 +31,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       {/* MENU BAR */}
-      <IonMenu contentId="main">
-        {/* menu is used to link this menu item to the component it will work with */}
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Course Goals</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {/* MENU TOGGLE */}
-            <IonMenuToggle>
-              <IonItem
-                button
-                routerLink="/courses/all-goals"
-                routerDirection="none"
-              >
-                <IonIcon slot="start" icon={list} />
-                <IonLabel>All Goals</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-            <IonMenuToggle>
-              <IonItem button routerLink="/filter" routerDirection="none">
-                <IonIcon slot="start" icon={options} />
-                <IonLabel>Filter</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-          </IonList>
-        </IonContent>
-      </IonMenu>
+      <SideDrawer />
       {/* {The whole Toolbar navigation was here previously. But it has been moved to the 
       CourseTab file and imported into this as a component to make the file neat} */}
       {/* This is the main routing for the project */}

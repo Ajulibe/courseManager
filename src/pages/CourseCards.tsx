@@ -10,14 +10,21 @@ import {
 
 const CourseCards: React.FC<{
   courseTitle: string;
-  courseEnrolled: string;
+  dateEnrolled: Date;
   courseID: string;
 }> = (props) => {
   return (
     <IonCard>
       <IonCardHeader>
         <IonCardTitle>{props.courseTitle}</IonCardTitle>
-        <IonCardSubtitle>Enrolled on {props.courseEnrolled}</IonCardSubtitle>
+        <IonCardSubtitle>
+          Enrolled on{" "}
+          {props.dateEnrolled.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
+        </IonCardSubtitle>
       </IonCardHeader>
 
       <IonCardContent>

@@ -112,11 +112,7 @@ const Courses: React.FC = (props) => {
               <IonCol size-md="4" offset-md="4">
                 <CourseCards
                   courseTitle={course.title}
-                  courseEnrolled={course.enrolled.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  })}
+                  dateEnrolled={course.enrolled}
                   courseID={course.id}
                 />
               </IonCol>
