@@ -1,7 +1,13 @@
 :root {
-    --ion-toolbar-background: var(--ion-color-primary);
-    --ion-toolbar-color: white;
-    --ion-tab-bar-background: var(--ion-color-primary);
-    --ion-tab-bar-color: white;
-    --ion-tab-bar-color-selected: red;
+  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-color: white;
+  --ion-tab-bar-background: var(--ion-color-primary);
+  --ion-tab-bar-color: white;
+  --ion-tab-bar-color-selected: red;
+  --ion-background-color: #fff;
+  --ion-font-family: "Poppins" !important;
+}
+
+.card-content-md p {
+  font-size: 11px !important;
 }

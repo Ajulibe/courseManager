@@ -1,0 +1,27 @@
+/* --background	 */
+ion-card {
+  --background: #ffffff;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 0;
+  border: 0.3px outset var(--ion-color-primary);
+  box-shadow: 0, 1.5rem, 4rem, rgba(0, 0, 0, 0.4);
+}
+
+.ionInput {
+  --placeholder-color: var(--ion-color-primary);
+  font-size: small;
+}
+
+ion-item {
+  --background: #fff;
+}
+
+ion-button {
+  --border-radius: 0;
+}
+
+.headerStyle {
+  color: var(--ion-color-primary);
+}

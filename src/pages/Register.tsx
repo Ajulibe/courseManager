@@ -15,28 +15,30 @@ import {
   IonText,
 } from "@ionic/react";
 import {
-  arrowForwardCircleOutline,
+  pencilOutline,
   mailOutline,
   lockOpenOutline,
+  lockClosedOutline,
 } from "ionicons/icons";
-import { loginUser } from "../firebase/FirebaseAuth";
+import "./LoginStyle.css";
 import { Link } from "react-router-dom";
 import { toast } from "./toast";
-import "./LoginStyle.css";
+import { registerUser } from "../firebase/FirebaseAuth";
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [cpassword, setCpassword] = useState<string>("");
 
-  const login = async () => {
-    // console.log(email, password);
-    const res = await loginUser(email, password);
-    if (!res) {
-      toast("Error loggng with your credentials");
-    } else {
-      toast("Successful");
+  const register = async () => {
+    if (password !== cpassword) {
+      return toast("Passwords do not match");
     }
-    console.log(res);
+    if (email.trim() === "" || password.trim() === "") {
+      return toast("Email and password is required");
+    }
+
+    const res = await registerUser(email, password);
   };
 
   return (
@@ -64,7 +66,7 @@ const Login: React.FC = () => {
                       </IonLabel>
                       <IonInput
                         className="ionInput"
-                        type="email"
+                        type="text"
                         placeholder="johnjane@example.com"
                         required
                         value={email}
@@ -83,7 +85,7 @@ const Login: React.FC = () => {
                       </IonLabel>
                       <IonInput
                         className="ionInput"
-                        type="password"
+                        type="text"
                         placeholder="**********"
                         required
                         value={password}
@@ -94,20 +96,37 @@ const Login: React.FC = () => {
                     </IonItem>
                   </IonCol>
                 </IonRow>
+                <IonRow style={{ marginBottom: "5%" }}>
+                  <IonCol>
+                    <IonItem>
+                      <IonLabel position="floating">
+                        <IonIcon slot="end" icon={lockClosedOutline} />
+                      </IonLabel>
+                      <IonInput
+                        className="ionInput"
+                        type="text"
+                        placeholder="**********"
+                        required
+                        value={cpassword}
+                        onIonChange={(e: any) => {
+                          setCpassword(e.target.value);
+                        }}
+                      />
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
                 <IonRow>
                   <IonCol className="ion-text-center">
-                    <IonButton
-                      expand="block"
-                      size="small"
-                      type="submit"
-                      onClick={login}
-                    >
-                      Login{" "}
-                      <IonIcon slot="end" icon={arrowForwardCircleOutline} />
+                    <IonButton expand="block" size="small" type="submit">
+                      Register{" "}
+                      <IonIcon slot="end" icon={pencilOutline} size="7px" />
                     </IonButton>
                     <br />
                     <p>
-                      New here? <Link to="/Register">Register</Link>
+                      Already have an Account? <br />
+                      <p>
+                        New here? <Link to="/login">Login</Link>
+                      </p>
                     </p>
                   </IonCol>
                 </IonRow>
@@ -120,4 +139,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;
