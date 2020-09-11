@@ -11,3 +11,17 @@
 .card-content-md p {
   font-size: 11px !important;
 }
+
+.headerColor {
+  background-color: var(--ion-color-primary);
+  /* clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); */
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  box-shadow: 0 2px 18px 5px rgba(0, 0, 0, 0.14);
+}

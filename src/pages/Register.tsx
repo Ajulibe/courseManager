@@ -13,6 +13,7 @@ import {
   IonCard,
   IonCardContent,
   IonText,
+  IonLoading,
 } from "@ionic/react";
 import {
   pencilOutline,
@@ -24,13 +25,17 @@ import "./LoginStyle.css";
 import { Link } from "react-router-dom";
 import { toast } from "./toast";
 import { registerUser } from "../firebase/FirebaseAuth";
+import { useHistory } from "react-router-dom";
 
 const Register: React.FC = () => {
+  const history = useHistory();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cpassword, setCpassword] = useState<string>("");
+  const [busy, setBusy] = useState<boolean>(false);
 
   const register = async () => {
+    setBusy(true);
     if (password !== cpassword) {
       return toast("Passwords do not match");
     }
@@ -39,13 +44,24 @@ const Register: React.FC = () => {
     }
 
     const res = await registerUser(email, password);
+    if (res) {
+      toast("Registration Successful");
+      history.push({
+        pathname: "/course-goals",
+      });
+    } else {
+      return;
+    }
+
+    setBusy(false);
   };
 
   return (
     <IonPage>
       <IonContent>
         <IonGrid className="ion-margin-top">
-          <IonRow>
+          <IonLoading message="Please wait..." duration={0} isOpen={busy} />
+          <IonRow className="headerColor">
             <IonCol className="ion-text-center">
               <IonText>
                 <h2 className="headerStyle">COURSES TRACKER</h2>
@@ -54,7 +70,7 @@ const Register: React.FC = () => {
           </IonRow>
           <IonRow
             className="ion-justify-content-center"
-            style={{ marginTop: "10%" }}
+            style={{ marginTop: "30%" }}
           >
             <IonCard style={{ backgoundColor: "#ffffff" }}>
               <IonCardContent>
@@ -85,7 +101,7 @@ const Register: React.FC = () => {
                       </IonLabel>
                       <IonInput
                         className="ionInput"
-                        type="text"
+                        type="password"
                         placeholder="**********"
                         required
                         value={password}
@@ -104,7 +120,7 @@ const Register: React.FC = () => {
                       </IonLabel>
                       <IonInput
                         className="ionInput"
-                        type="text"
+                        type="password"
                         placeholder="**********"
                         required
                         value={cpassword}
@@ -117,7 +133,12 @@ const Register: React.FC = () => {
                 </IonRow>
                 <IonRow>
                   <IonCol className="ion-text-center">
-                    <IonButton expand="block" size="small" type="submit">
+                    <IonButton
+                      expand="block"
+                      size="small"
+                      type="submit"
+                      onClick={register}
+                    >
                       Register{" "}
                       <IonIcon slot="end" icon={pencilOutline} size="7px" />
                     </IonButton>

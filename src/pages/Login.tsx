@@ -13,6 +13,7 @@ import {
   IonCard,
   IonCardContent,
   IonText,
+  IonLoading,
 } from "@ionic/react";
 import {
   arrowForwardCircleOutline,
@@ -27,23 +28,23 @@ import "./LoginStyle.css";
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [busy, setBusy] = useState<boolean>(false);
 
   const login = async () => {
-    // console.log(email, password);
+    setBusy(true);
     const res = await loginUser(email, password);
-    if (!res) {
-      toast("Error loggng with your credentials");
-    } else {
+    if (res) {
       toast("Successful");
     }
-    console.log(res);
+    setBusy(false);
   };
 
   return (
     <IonPage>
       <IonContent>
         <IonGrid className="ion-margin-top">
-          <IonRow>
+          <IonLoading message="Please wait..." duration={0} isOpen={busy} />
+          <IonRow className="headerColor">
             <IonCol className="ion-text-center">
               <IonText>
                 <h2 className="headerStyle">COURSES TRACKER</h2>
@@ -52,7 +53,7 @@ const Login: React.FC = () => {
           </IonRow>
           <IonRow
             className="ion-justify-content-center"
-            style={{ marginTop: "10%" }}
+            style={{ marginTop: "30%" }}
           >
             <IonCard style={{ backgoundColor: "#ffffff" }}>
               <IonCardContent>

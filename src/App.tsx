@@ -56,7 +56,7 @@ documentation it shouldnt be wrapped in a routeroutlet */}
           <Route path="/courses">
             <CourseTabs />
           </Route>
-          <Redirect path="/" to="/courses/list" exact />
+          <Redirect path="/" to="/login" exact />
         </IonRouterOutlet>
       </CoursesContextProvider>
     </IonReactRouter>
