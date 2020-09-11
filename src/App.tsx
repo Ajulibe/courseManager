@@ -9,6 +9,7 @@ import SideDrawer from "./pages/SideDrawer";
 import CoursesContextProvider from "./data/CoursesContextProvider";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Intro from "./pages/Intro";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -44,6 +45,9 @@ documentation it shouldnt be wrapped in a routeroutlet */}
       {/* BELOW IS THE MAIN ROUTER FLOW */}
       <CoursesContextProvider>
         <IonRouterOutlet id="main">
+          <Route path="/intro" exact>
+            <Intro />
+          </Route>
           <Route path="/Register" exact>
             <Register />
           </Route>

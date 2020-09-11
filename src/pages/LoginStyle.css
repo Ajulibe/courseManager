@@ -15,7 +15,6 @@ ion-card {
 }
 
 ion-item {
-  --background: #fff;
 }
 
 ion-button {
@@ -25,4 +24,27 @@ ion-button {
 .headerStyle {
   color: #fff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+ion-slides {
+  height: 100%;
+  background-color: #210b1a;
+}
+
+.slider {
+  margin-bottom: 16%;
+  padding: 1rem;
+  margin-top: 15%;
+}
+
+.back {
+  --background: #210b1a;
+}
+
+img {
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.9));
+}
+
+.txtStyle {
+  text-shadow: 0 1px 17px rgba(0, 0, 0, 0.9);
 }
