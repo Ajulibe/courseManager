@@ -23,9 +23,11 @@ import {
 import { loginUser } from "../firebase/FirebaseAuth";
 import { Link } from "react-router-dom";
 import { toast } from "./toast";
+import { useHistory } from "react-router-dom";
 import "./LoginStyle.css";
 
 const Login: React.FC = () => {
+  const history = useHistory();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [busy, setBusy] = useState<boolean>(false);
@@ -35,6 +37,9 @@ const Login: React.FC = () => {
     const res = await loginUser(email, password);
     if (res) {
       toast("Successful");
+      history.push({
+        pathname: "/courses/all-goals",
+      });
     }
     setBusy(false);
   };
@@ -64,6 +69,7 @@ const Login: React.FC = () => {
                         <IonIcon slot="end" icon={mailOutline} />
                       </IonLabel>
                       <IonInput
+                        autocomplete="email"
                         className="ionInput"
                         type="email"
                         placeholder="johnjane@example.com"
@@ -102,6 +108,7 @@ const Login: React.FC = () => {
                       size="small"
                       type="submit"
                       onClick={login}
+                      className="ionbuttonStyle"
                     >
                       Login{" "}
                       <IonIcon slot="end" icon={arrowForwardCircleOutline} />

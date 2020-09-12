@@ -47,7 +47,7 @@ const Register: React.FC = () => {
     if (res) {
       toast("Registration Successful");
       history.push({
-        pathname: "/course-goals",
+        pathname: "/courses/all-goals",
       });
     } else {
       return;
@@ -82,7 +82,7 @@ const Register: React.FC = () => {
                       </IonLabel>
                       <IonInput
                         className="ionInput"
-                        type="text"
+                        type="email"
                         placeholder="johnjane@example.com"
                         required
                         value={email}
@@ -138,6 +138,7 @@ const Register: React.FC = () => {
                       size="small"
                       type="submit"
                       onClick={register}
+                      className="ionbuttonStyle"
                     >
                       Register{" "}
                       <IonIcon slot="end" icon={pencilOutline} size="7px" />

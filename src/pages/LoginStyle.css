@@ -17,7 +17,7 @@ ion-card {
 ion-item {
 }
 
-ion-button {
+.ionbuttonStyle {
   --border-radius: 0;
 }
 

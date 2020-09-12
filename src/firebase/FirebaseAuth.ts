@@ -3,6 +3,7 @@ import * as firebase from "firebase/app";
 // These imports load individual services into the firebase namespace.
 import "firebase/auth";
 import "firebase/database";
+import "firebase/firestore";
 import { toast } from "../pages/toast";
 
 // Your web app's Firebase configuration
@@ -17,8 +18,12 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-// firebase.analytics();
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+//database
+const db = firebaseApp.firestore();
+
+export { db };
 
 export const loginUser = async (email: string, password: string) => {
   //authenticate with firebase.
@@ -28,7 +33,7 @@ export const loginUser = async (email: string, password: string) => {
     const res = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    // console.log(res);
+    console.log(res);
     return true;
   } catch (error) {
     toast(error.message, 4000);

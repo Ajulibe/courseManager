@@ -53,12 +53,7 @@ const Intro: React.FC = () => {
           </IonRow>
           <IonRow>
             <IonCol className="ion-text-center">
-              <IonButton
-                expand="block"
-                size="small"
-                type="submit"
-                routerLink="/login"
-              >
+              <IonButton expand="block" type="submit" routerLink="/login">
                 <p className="txt">Login </p>
               </IonButton>
             </IonCol>
@@ -67,9 +62,9 @@ const Intro: React.FC = () => {
             <IonCol className="ion-text-center">
               <IonButton
                 expand="block"
-                size="small"
                 type="submit"
                 routerLink="/Register"
+                fill="outline"
               >
                 <p className="txtStyle">Register </p>
               </IonButton>

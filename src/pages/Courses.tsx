@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonHeader,
   IonContent,
@@ -16,9 +16,11 @@ import {
   IonButtons,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
-import { add, addOutline } from "ionicons/icons";
+import { add, addOutline, returnDownBackOutline } from "ionicons/icons";
 import CoursesEditModal from "./CoursesEditModal";
 import CourseCards from "./CourseCards";
+import { db } from "../firebase/FirebaseAuth";
+import firebase, { firestore } from "firebase";
 
 export const COURSE_DATA = [
   {
@@ -71,13 +73,28 @@ export const COURSE_DATA = [
 const Courses: React.FC = (props) => {
   const history = useHistory();
   const [show, setShow] = useState<boolean>(false);
+  const [courses, setCourses] = useState<string>("");
 
-  // const changePageHandler = () => {
-  //   history.push({
-  //     pathname: "/course-goals",
-  //     state: "akachukwu",
-  //   });
-  // };
+  //firebaseConfig
+  useEffect(() => {
+    //GET REQUEST
+    //this snapshot constanly watches for any changes to our collection
+    //and updates us.
+    let unsubscribe = db.collection("courses").onSnapshot((snapshot) => {
+      //database object with ID
+      console.log(snapshot);
+      console.log(
+        snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        })
+      );
+    });
+
+    //Remove the listener
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const startAddCoursesHandler = () => {
     setShow(true);
@@ -87,7 +104,22 @@ const Courses: React.FC = (props) => {
     setShow(false);
   };
 
-  const courseAddHandler = (title: string, date: Date) => {};
+  const courseAddHandler = (title: string, date: Date) => {
+    //POST REQUEST IN FIREBASE
+    db.collection("courses")
+      .add({
+        title: "akachukwu",
+        date: "20/12/19",
+        timestamp: firestore.FieldValue.serverTimestamp(),
+      })
+      .then((res) => {
+        console.log(res.id);
+        setShow(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <IonPage>
