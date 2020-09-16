@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   IonHeader,
   IonContent,
@@ -19,9 +19,11 @@ import {
 import { useParams, useLocation } from "react-router-dom";
 import { COURSE_DATA } from "./Courses";
 import { addOutline, add } from "ionicons/icons";
+
 import EditModal from "./EditModal";
 import EditableGoalSliding from "./EditableGoalSliding";
 import { db } from "../firebase/FirebaseAuth";
+import CoursesContext from "../data/course-context";
 
 const CourseGoals: React.FC = () => {
   const [showAlert1, setShowAlert1] = useState(false);
@@ -29,7 +31,14 @@ const CourseGoals: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<any>();
 
+  const coursesCtx = useContext(CoursesContext);
+
   const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
+
+  //refs are also used as data storages. They dont loose their value when the component
+  //re-renders
+  const selectedGoalidRef = useRef<string | null>(null);
+
   //we are using useParams here. First set the rout in the router of this component to /:id
   //where id is the query string. Then go to the file you want to make use of that query
   //and import useParams and extract the required value like below.
@@ -37,14 +46,21 @@ const CourseGoals: React.FC = () => {
   //USING HISTORY OBJECT
   // const location = useLocation<{name: string}>().state.name;
 
-  const selectedCourse = COURSE_DATA.find((c) => c.id === selectedCourseId);
+  // const selectedCourse = COURSE_DATA.find((c) => c.id === selectedCourseId);
+  const selectedCourse = coursesCtx.courses.find(
+    (c) => c.id === selectedCourseId
+  );
 
-  const startDeleteItemHandler = (event: React.MouseEvent) => {
+  const startDeleteItemHandler = (goalId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     //delete from firebase
     //make use of the ID as passed using the params above
     //the id here is the selectedCourseId above
-    db.collection("courses").doc("id").delete();
+    // db.collection("courses").doc("id").delete();
+
+    //remember to set the type to a string or null because we are using this as a
+    //data storage
+    selectedGoalidRef.current = goalId;
     setShowAlert1(true);
 
     console.log("Agreed to Delete...");
@@ -52,6 +68,7 @@ const CourseGoals: React.FC = () => {
 
   const deleteGoalHandler = () => {
     setShowAlert1(true);
+    coursesCtx.deleteGoal(selectedCourseId, selectedGoalidRef.current!);
     setShowToast1(true);
     console.log("Deleted...");
   };
@@ -79,6 +96,16 @@ const CourseGoals: React.FC = () => {
     setSelectedGoal(null);
   };
 
+  const saveGoalHandler = (text: string) => {
+    if (selectedGoal) {
+      coursesCtx.updateGoal(selectedCourseId, selectedGoal.id, text);
+    } else {
+      coursesCtx.addGoal(selectedCourseId, text);
+    }
+
+    setShowModal(false);
+  };
+
   return (
     <>
       {/* MAIN PAGE */}
@@ -86,6 +113,7 @@ const CourseGoals: React.FC = () => {
         editedGoal={selectedGoal}
         show={showModal}
         cancelEditGoalHandler={cancelEditGoalHandler}
+        onSave={saveGoalHandler}
       />
       {/* ALERT  */}
       <IonAlert
@@ -161,7 +189,10 @@ const CourseGoals: React.FC = () => {
                 // </IonItem>
                 <EditableGoalSliding
                   key={goal.id}
-                  startDeleteItemHandler={startDeleteItemHandler}
+                  startDeleteItemHandler={startDeleteItemHandler.bind(
+                    null,
+                    goal.id
+                  )}
                   slidingOptionsRef={slidingOptionsRef}
                   goalText={goal.text}
                   startEditGoalHandler={startEditGoalHandler.bind(

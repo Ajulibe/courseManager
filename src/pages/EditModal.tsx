@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   IonModal,
   IonHeader,
@@ -12,13 +12,29 @@ import {
   IonItem,
   IonLabel,
   IonInput,
+  IonText,
 } from "@ionic/react";
 
 const EditModal: React.FC<{
   cancelEditGoalHandler: () => void;
+  onSave: (goalText: string) => void;
   show: boolean;
   editedGoal: { id: string; text: string } | null;
 }> = (props) => {
+  const [error, setError] = useState<string>("");
+
+  const textRef = useRef<HTMLIonInputElement>(null);
+
+  const saveHandler = () => {
+    const enteredText = textRef.current?.value;
+
+    if (!enteredText || enteredText.toString().trim().length === 0) {
+      setError("Please enter a valid text!");
+      return;
+    }
+
+    props.onSave(enteredText.toString());
+  };
   return (
     <>
       {/* MODAL */}
@@ -37,10 +53,20 @@ const EditModal: React.FC<{
                   <IonInput
                     type="text"
                     value={props.editedGoal?.text}
+                    ref={textRef}
                   ></IonInput>
                 </IonItem>
               </IonCol>
             </IonRow>
+            {error && (
+              <IonRow>
+                <IonCol>
+                  <IonText color="danger">
+                    <p>{error}</p>
+                  </IonText>
+                </IonCol>
+              </IonRow>
+            )}
             <IonRow className="ion-text-center">
               <IonCol>
                 <IonButton
@@ -52,7 +78,11 @@ const EditModal: React.FC<{
                 </IonButton>
               </IonCol>
               <IonCol>
-                <IonButton color="secondary" expand="block">
+                <IonButton
+                  color="secondary"
+                  expand="block"
+                  onClick={saveHandler}
+                >
                   Save
                 </IonButton>
               </IonCol>

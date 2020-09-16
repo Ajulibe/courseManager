@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   IonHeader,
   IonContent,
@@ -21,6 +21,7 @@ import CoursesEditModal from "./CoursesEditModal";
 import CourseCards from "./CourseCards";
 import { db } from "../firebase/FirebaseAuth";
 import firebase, { firestore } from "firebase";
+import CoursesContext from "../data/course-context";
 
 export const COURSE_DATA = [
   {
@@ -75,6 +76,8 @@ const Courses: React.FC = (props) => {
   const [show, setShow] = useState<boolean>(false);
   const [courses, setCourses] = useState<string>("");
 
+  const courseCtx = useContext(CoursesContext);
+
   //firebaseConfig
   useEffect(() => {
     //GET REQUEST
@@ -90,25 +93,6 @@ const Courses: React.FC = (props) => {
         })
       );
     });
-
-    // ORDERING BY TIMESTAMP
-    //remember that timestamp is a field in the collection
-    // db.collection("courses")
-    //   .orderBy("timestamp", "desc")
-    //   .onSnapshot((snapshot) => {
-    //     //database object with ID
-    //     // console.log(snapshot);
-    //     console.log(
-    //       snapshot.docs.map((doc) => {
-    //         return { ...doc.data(), id: doc.id };
-    //       })
-    //     );
-    //   });
-
-    //Remove the listener
-    // return () => {
-    //   unsubscribe();
-    // };
 
     //DELETE from firebase
     //make use of the ID as passed using the params above
@@ -126,19 +110,22 @@ const Courses: React.FC = (props) => {
 
   const courseAddHandler = (title: string, date: Date) => {
     //POST REQUEST IN FIREBASE
-    db.collection("courses")
-      .add({
-        title: "aka",
-        date: "20/12/19",
-        timestamp: firestore.FieldValue.serverTimestamp(),
-      })
-      .then((res) => {
-        // console.log(res.id);
-        setShow(false);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // db.collection("courses")
+    //   .add({
+    //     title: "aka",
+    //     date: "20/12/19",
+    //     timestamp: firestore.FieldValue.serverTimestamp(),
+    //   })
+    //   .then((res) => {
+    //     // console.log(res.id);
+    //     setShow(false);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+
+    courseCtx.addCourse(title, date);
+    setShow(false);
   };
 
   return (
@@ -162,7 +149,7 @@ const Courses: React.FC = (props) => {
       </IonHeader>
       <IonContent>
         <IonGrid>
-          {COURSE_DATA.map((course) => (
+          {courseCtx.courses.map((course) => (
             <IonRow key={course.id}>
               <IonCol size-md="4" offset-md="4">
                 <CourseCards

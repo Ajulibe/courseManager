@@ -1,0 +1,114 @@
+
+
+// Add a new document in collection "cities"
+db.collection("cities").doc("LA").set({
+  name: "Los Angeles",
+  state: "CA",
+  country: "USA",
+});
+db.collection("cities").doc("BJ").set(
+  {
+    capital: true,
+  },
+  { merge: true }
+);
+
+
+// Add a new document with a generated id.
+db.collection("cities").add({
+  name: "Tokyo",
+  country: "Japan",
+});
+//.add(...) and .doc().set(...) are completely equivalent
+//.add() and .doc().set() is used when we want firebase to generate an ID for us
+
+
+
+// Set the "capital" field of the city 'DC'
+db.collection("cities").doc("DC").update({
+  capital: true,
+});
+
+
+
+
+// Update the timestamp field with the value from the server
+db.collection("objects").doc("some-id").update({
+  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+});
+
+
+
+// Get a document
+db.collection("cities")
+  .doc("SF")
+  .get()
+  .then(function (doc) {
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  })
+  .catch(function (error) {
+    console.log("Error getting document:", error);
+  });
+
+
+
+
+
+//Get multiple documents from a collection
+//WITHOUT AUTO-UPDATE
+db.collection("cities")
+  .get()
+  .then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  });
+//WITH AUTO-UPDATE
+db.collection("courses").onSnapshot((snapshot) => {
+  //database object with ID
+  // snapshot gets called anytie the results oof the query changes
+  //over time
+  console.log(
+    snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    })
+  );
+});
+
+
+//Simple queries
+db.collection("cities").where("capital", "==", true);
+db.collection("cities").where("state", "==", "CA");
+db.collection("cities").where("population", "<", 100000);
+db.collection("cities").where("name", ">=", "San Francisco");
+db.collection("cities").where("regions", "array-contains", "west_coast");
+
+//Compound queries
+db.collection("cities").where("state", ">=", "CA").where("state", "<=", "IN");
+db.collection("cities").where("state", "==", "CA").where("population", ">", 1000000);
+
+
+ // ORDERING BY TIMESTAMP
+    //remember that timestamp is a field in the collection
+    // db.collection("courses")
+    //   .orderBy("timestamp", "desc")
+    //   .onSnapshot((snapshot) => {
+    //     //database object with ID
+    //     // console.log(snapshot);
+    //     console.log(
+    //       snapshot.docs.map((doc) => {
+    //         return { ...doc.data(), id: doc.id };
+    //       })
+    //     );
+    //   });
+
+    //Remove the listener
+    // return () => {
+    //   unsubscribe();
+    // };
