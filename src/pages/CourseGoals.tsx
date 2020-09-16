@@ -21,6 +21,7 @@ import { COURSE_DATA } from "./Courses";
 import { addOutline, add } from "ionicons/icons";
 import EditModal from "./EditModal";
 import EditableGoalSliding from "./EditableGoalSliding";
+import { db } from "../firebase/FirebaseAuth";
 
 const CourseGoals: React.FC = () => {
   const [showAlert1, setShowAlert1] = useState(false);
@@ -40,6 +41,10 @@ const CourseGoals: React.FC = () => {
 
   const startDeleteItemHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
+    //delete from firebase
+    //make use of the ID as passed using the params above
+    //the id here is the selectedCourseId above
+    db.collection("courses").doc("id").delete();
     setShowAlert1(true);
 
     console.log("Agreed to Delete...");

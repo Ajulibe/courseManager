@@ -78,11 +78,12 @@ const Courses: React.FC = (props) => {
   //firebaseConfig
   useEffect(() => {
     //GET REQUEST
-    //this snapshot constanly watches for any changes to our collection
-    //and updates us.
-    let unsubscribe = db.collection("courses").onSnapshot((snapshot) => {
+    // this snapshot constanly watches for any changes to our collection
+    // and updates us.
+    db.collection("courses").onSnapshot((snapshot) => {
       //database object with ID
-      console.log(snapshot);
+      // snapshot gets called anytie the results oof the query changes
+      //over time
       console.log(
         snapshot.docs.map((doc) => {
           return { ...doc.data(), id: doc.id };
@@ -90,10 +91,29 @@ const Courses: React.FC = (props) => {
       );
     });
 
+    // ORDERING BY TIMESTAMP
+    //remember that timestamp is a field in the collection
+    // db.collection("courses")
+    //   .orderBy("timestamp", "desc")
+    //   .onSnapshot((snapshot) => {
+    //     //database object with ID
+    //     // console.log(snapshot);
+    //     console.log(
+    //       snapshot.docs.map((doc) => {
+    //         return { ...doc.data(), id: doc.id };
+    //       })
+    //     );
+    //   });
+
     //Remove the listener
-    return () => {
-      unsubscribe();
-    };
+    // return () => {
+    //   unsubscribe();
+    // };
+
+    //DELETE from firebase
+    //make use of the ID as passed using the params above
+    //the id here is the selectedCourseId above
+    db.collection("courses").doc("id").delete();
   }, []);
 
   const startAddCoursesHandler = () => {
@@ -108,12 +128,12 @@ const Courses: React.FC = (props) => {
     //POST REQUEST IN FIREBASE
     db.collection("courses")
       .add({
-        title: "akachukwu",
+        title: "aka",
         date: "20/12/19",
         timestamp: firestore.FieldValue.serverTimestamp(),
       })
       .then((res) => {
-        console.log(res.id);
+        // console.log(res.id);
         setShow(false);
       })
       .catch((e) => {
