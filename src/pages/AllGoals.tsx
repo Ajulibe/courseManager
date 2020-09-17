@@ -11,7 +11,7 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
-import { COURSE_DATA } from "./Courses";
+// import { COURSE_DATA } from "./Courses";
 import CoursesContext from "../data/course-context";
 
 //COURSE_DATA is the dummy data we used.

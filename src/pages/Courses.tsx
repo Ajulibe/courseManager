@@ -15,12 +15,12 @@ import {
   IonIcon,
   IonButtons,
 } from "@ionic/react";
-import { useHistory } from "react-router-dom";
-import { add, addOutline, returnDownBackOutline } from "ionicons/icons";
+// import { useHistory } from "react-router-dom";
+import { add, addOutline } from "ionicons/icons";
 import CoursesEditModal from "./CoursesEditModal";
 import CourseCards from "./CourseCards";
 import { db } from "../firebase/FirebaseAuth";
-import firebase, { firestore } from "firebase";
+// import firebase, { firestore } from "firebase";
 import CoursesContext from "../data/course-context";
 
 export const COURSE_DATA = [
@@ -72,9 +72,8 @@ export const COURSE_DATA = [
 ];
 
 const Courses: React.FC = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
   const [show, setShow] = useState<boolean>(false);
-  const [courses, setCourses] = useState<string>("");
 
   const courseCtx = useContext(CoursesContext);
 

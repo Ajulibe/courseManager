@@ -19,7 +19,6 @@ import {
   arrowForwardCircleOutline,
   mailOutline,
   lockOpenOutline,
-  resizeSharp,
 } from "ionicons/icons";
 import { loginUser } from "../firebase/FirebaseAuth";
 import { Link } from "react-router-dom";

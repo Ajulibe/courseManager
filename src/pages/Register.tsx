@@ -160,9 +160,9 @@ const Register: React.FC = () => {
                     <br />
                     <p>
                       Already have an Account? <br />
-                      <p>
-                        New here? <Link to="/login">Login</Link>
-                      </p>
+                      <IonText>
+                        <Link to="/login">Login</Link>
+                      </IonText>
                     </p>
                   </IonCol>
                 </IonRow>

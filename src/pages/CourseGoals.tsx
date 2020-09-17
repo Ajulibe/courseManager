@@ -16,13 +16,15 @@ import {
   IonAlert,
   IonToast,
 } from "@ionic/react";
-import { useParams, useLocation } from "react-router-dom";
-import { COURSE_DATA } from "./Courses";
+import { useParams } from "react-router-dom";
+//YOU CAN IMPORT useLocation if you need to use it
+// import {useLocation } from "react-router-dom";
+// import { COURSE_DATA } from "./Courses";
 import { addOutline, add } from "ionicons/icons";
 
 import EditModal from "./EditModal";
 import EditableGoalSliding from "./EditableGoalSliding";
-import { db } from "../firebase/FirebaseAuth";
+// import { db } from "../firebase/FirebaseAuth";
 import CoursesContext from "../data/course-context";
 
 const CourseGoals: React.FC = () => {

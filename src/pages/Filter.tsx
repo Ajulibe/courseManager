@@ -13,7 +13,7 @@ import {
   IonToggle,
 } from "@ionic/react";
 
-import { COURSE_DATA } from "./Courses";
+// import { COURSE_DATA } from "./Courses";
 import CoursesContext from "../data/course-context";
 
 const Filter: React.FC = () => {
