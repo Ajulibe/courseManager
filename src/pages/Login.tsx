@@ -19,12 +19,15 @@ import {
   arrowForwardCircleOutline,
   mailOutline,
   lockOpenOutline,
+  resizeSharp,
 } from "ionicons/icons";
 import { loginUser } from "../firebase/FirebaseAuth";
 import { Link } from "react-router-dom";
 import { toast } from "./toast";
 import { useHistory } from "react-router-dom";
 import "./LoginStyle.css";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -35,7 +38,20 @@ const Login: React.FC = () => {
   const login = async () => {
     setBusy(true);
     const res = await loginUser(email, password);
+    console.log(res);
+
     if (res) {
+      //FETCHING THE USER TOKEN
+      await firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log(user); // It shows the Firebase user
+
+          user.getIdToken().then(function (idToken) {
+            console.log(idToken);
+            sessionStorage.setItem("jwtToken", idToken);
+          });
+        }
+      });
       toast("Successful");
       history.push({
         pathname: "/courses/all-goals",

@@ -26,6 +26,8 @@ import { Link } from "react-router-dom";
 import { toast } from "./toast";
 import { registerUser } from "../firebase/FirebaseAuth";
 import { useHistory } from "react-router-dom";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 const Register: React.FC = () => {
   const history = useHistory();
@@ -44,7 +46,19 @@ const Register: React.FC = () => {
     }
 
     const res = await registerUser(email, password);
+
     if (res) {
+      //FETCHING THE USER TOKEN
+      await firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log(user); // It shows the Firebase user
+
+          user.getIdToken().then(function (idToken) {
+            console.log(idToken);
+            sessionStorage.setItem("jwtToken", idToken);
+          });
+        }
+      });
       toast("Registration Successful");
       history.push({
         pathname: "/courses/all-goals",
