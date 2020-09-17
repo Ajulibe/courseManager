@@ -27,9 +27,10 @@ import CoursesContext from "../data/course-context";
 
 const CourseGoals: React.FC = () => {
   const [showAlert1, setShowAlert1] = useState(false);
-  const [showToast1, setShowToast1] = useState(false);
+  // const [showToast1, setShowToast1] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<any>();
+  const [toastmessage, setToastMessage] = useState<string>("");
 
   const coursesCtx = useContext(CoursesContext);
 
@@ -52,6 +53,7 @@ const CourseGoals: React.FC = () => {
   );
 
   const startDeleteItemHandler = (goalId: string, event: React.MouseEvent) => {
+    setToastMessage("");
     event.stopPropagation();
     //delete from firebase
     //make use of the ID as passed using the params above
@@ -69,8 +71,8 @@ const CourseGoals: React.FC = () => {
   const deleteGoalHandler = () => {
     setShowAlert1(true);
     coursesCtx.deleteGoal(selectedCourseId, selectedGoalidRef.current!);
-    setShowToast1(true);
-    console.log("Deleted...");
+    // setShowToast1(true);
+    setToastMessage("Goal has been deleted");
   };
 
   const startEditGoalHandler = (goalId: string, event: React.MouseEvent) => {
@@ -146,9 +148,8 @@ const CourseGoals: React.FC = () => {
       {/* TOAST MESSAGE */}
       <IonToast
         color="secondary"
-        isOpen={showToast1}
-        onDidDismiss={() => setShowToast1(false)}
-        message="Goal has been deleted"
+        isOpen={!!toastmessage}
+        message={toastmessage}
         duration={1000}
       />
       <IonPage>

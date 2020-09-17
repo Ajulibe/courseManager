@@ -7,7 +7,17 @@ const CoursesContextProvider: React.FC = ({ children }) => {
       id: "c1",
       title: "React - The Complete Guide",
       enrolled: new Date(),
-      goals: [],
+      goals: [
+        {
+          id: "c1g1",
+          text: "Finish the Course!",
+        },
+        {
+          id: "c1g2",
+          text: "Learn A lot",
+        },
+      ],
+      included: true,
     },
   ]);
 
@@ -21,6 +31,7 @@ const CoursesContextProvider: React.FC = ({ children }) => {
       title: title,
       enrolled: date,
       goals: [],
+      included: true,
     };
 
     //if the newstate depends on the old state then we shoul use a function in setState
@@ -121,6 +132,31 @@ const CoursesContextProvider: React.FC = ({ children }) => {
     });
   };
 
+  //FILTERING GOALS
+  const changeCourseFilter = (courseId: string, isIncluded: boolean) => {
+    setCourses((curCourses) => {
+      //get all the courses
+      const updatedCourses = [...curCourses];
+
+      //find where the courses in te original array match the
+      //courses we are looking for
+      const updatedCourseIndex = updatedCourses.findIndex(
+        (course) => course.id === courseId
+      );
+
+      //get the particular course that needs to be updated and added an extra feild
+      const updatedCourse = {
+        ...updatedCourses[updatedCourseIndex],
+        included: isIncluded,
+      };
+
+      //select the particualr course from the main array and replace it
+      //with this new course that has been worked on
+      updatedCourses[updatedCourseIndex] = updatedCourse;
+      return updatedCourses;
+    });
+  };
+
   //BREAK DOWN
   //This is simply the state and dispatched actions for the provider
   //Note that thaat the context has nothing to do here in terms of State.
@@ -137,6 +173,7 @@ const CoursesContextProvider: React.FC = ({ children }) => {
         addCourse: addCourse,
         deleteGoal: deleteGoal,
         updateGoal: updateGoal,
+        changeCourseFilter: changeCourseFilter,
       }}
     >
       {children}{" "}

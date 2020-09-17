@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   IonHeader,
   IonContent,
@@ -12,24 +12,45 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { COURSE_DATA } from "./Courses";
+import CoursesContext from "../data/course-context";
+
+//COURSE_DATA is the dummy data we used.
 
 const AllGoals: React.FC = () => {
+  const coursesCtx = useContext(CoursesContext);
+
   //obtaining an array that contains only the goals.
-  const goals = COURSE_DATA.map((course) => {
-    //for every course we extract the goals object and add te course
-    //title to that object
-    return course.goals.map((goal) => {
-      return { ...goal, courseTitle: course.title };
-    });
-  }).reduce((goalArr, nestedGoals) => {
-    let updatedGoalArray = goalArr;
-    console.log(updatedGoalArray);
-    console.log(nestedGoals);
-    for (const goal of nestedGoals) {
-      updatedGoalArray = updatedGoalArray.concat(goal);
-    }
-    return updatedGoalArray;
-  }, []);
+  const goals = coursesCtx.courses
+    //this only returns the goals that are true
+    .filter((courses) => {
+      return courses.included;
+    })
+    .map((course) => {
+      //for every course we extract the goals object and add te course
+      //title to that object
+      return course.goals.map((goal) => {
+        return { ...goal, courseTitle: course.title };
+
+        //HERE WE ARE RETURNING THE BELOW OBJECT
+        //because for each of the goals, we are returning and oject
+        //that has the courses title and the goal.
+        /*  {
+          courseTitle: "React - The Complete Guide",
+          id: "c1g1",
+          text: "Finish the Course!", 
+          ]
+        }, */
+      });
+    })
+    .reduce((goalArr, nestedGoals) => {
+      let updatedGoalArray = goalArr;
+      console.log(updatedGoalArray);
+      console.log(nestedGoals);
+      for (const goal of nestedGoals) {
+        updatedGoalArray = updatedGoalArray.concat(goal);
+      }
+      return updatedGoalArray;
+    }, []);
 
   console.log(goals);
   //The reduce method performs a function on each element in an

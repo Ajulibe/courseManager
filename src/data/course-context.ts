@@ -16,6 +16,9 @@ export interface Course {
   title: string;
   enrolled: Date;
   goals: Goal[];
+  //this field is added to determine if a course should be included
+  //in the all goals page
+  included: boolean;
 }
 
 interface Context {
@@ -26,6 +29,7 @@ interface Context {
   addGoal: (courseId: string, goalText: string) => void;
   deleteGoal: (courseId: string, goalId: string) => void;
   updateGoal: (courseId: string, goalId: string, newText: string) => void;
+  changeCourseFilter: (courseId: string, isIncluded: boolean) => void;
 }
 
 //This is the basic React Context Setup. Above is Typescript
@@ -44,6 +48,7 @@ const CoursesContext = React.createContext<Context>({
   addGoal: () => {},
   deleteGoal: () => {},
   updateGoal: () => {},
+  changeCourseFilter: () => {},
 });
 
 export default CoursesContext;
