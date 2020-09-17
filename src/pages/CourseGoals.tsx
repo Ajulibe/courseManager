@@ -108,6 +108,40 @@ const CourseGoals: React.FC = () => {
     setShowModal(false);
   };
 
+  let content = <h2 className="ion-text-center">No goals found!</h2>;
+  if (!selectedCourse) {
+    content = <h2 className="ion-text-center">No Course found!</h2>;
+  }
+
+  if (selectedCourse && selectedCourse.goals.length > 0) {
+    content = (
+      <IonList lines="full">
+        {selectedCourse?.goals.map((goal) => (
+          //FOR CLICKING
+          // <IonItem key={goal.id} button onClick={deleteItemHandler}>
+          //   {" "}
+          //   <IonLabel>{goal.text}</IonLabel>
+          //   <IonButton
+          //     fill="clear"
+          //     color="dark"
+          //     slot="end"
+          //     onClick={startEditGoalHandler}
+          //   >
+          //     <IonIcon slot="icon-only" icon={create} color="secondary" />
+          //   </IonButton>
+          // </IonItem>
+          <EditableGoalSliding
+            key={goal.id}
+            startDeleteItemHandler={startDeleteItemHandler.bind(null, goal.id)}
+            slidingOptionsRef={slidingOptionsRef}
+            goalText={goal.text}
+            startEditGoalHandler={startEditGoalHandler.bind(null, goal.id)}
+          />
+        ))}
+      </IonList>
+    );
+  }
+
   return (
     <>
       {/* MAIN PAGE */}
@@ -172,38 +206,7 @@ const CourseGoals: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {selectedCourse && (
-            <IonList lines="full">
-              {selectedCourse?.goals.map((goal) => (
-                //FOR CLICKING
-                // <IonItem key={goal.id} button onClick={deleteItemHandler}>
-                //   {" "}
-                //   <IonLabel>{goal.text}</IonLabel>
-                //   <IonButton
-                //     fill="clear"
-                //     color="dark"
-                //     slot="end"
-                //     onClick={startEditGoalHandler}
-                //   >
-                //     <IonIcon slot="icon-only" icon={create} color="secondary" />
-                //   </IonButton>
-                // </IonItem>
-                <EditableGoalSliding
-                  key={goal.id}
-                  startDeleteItemHandler={startDeleteItemHandler.bind(
-                    null,
-                    goal.id
-                  )}
-                  slidingOptionsRef={slidingOptionsRef}
-                  goalText={goal.text}
-                  startEditGoalHandler={startEditGoalHandler.bind(
-                    null,
-                    goal.id
-                  )}
-                />
-              ))}
-            </IonList>
-          )}
+          {content}
 
           {/* FLOATING BUTTON */}
           {isPlatform("android") && (
